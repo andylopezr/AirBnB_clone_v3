@@ -7,10 +7,18 @@ from os import getenv
 app = Flask(__name__)
 app.register_blueprint(app_views)
 
+
 @app.teardown_appcontext
 def close(error):
     """Handles app teardown(close)"""
     storage.close()
+
+
+@app.errorhandler(404)
+def notfound(error):
+    """Handles 404 errors in JSON format"""
+    return jsonify({"error": "Not found"}), 404
+
 
 if __name__ == "__main__":
     host = getenv('HBNB_API_HOST')
@@ -20,5 +28,3 @@ if __name__ == "__main__":
     if not port:
         port = '5000'
     app.run(host=host, port=int(port), threaded=True)
-
-

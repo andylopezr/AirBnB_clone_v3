@@ -4,6 +4,7 @@ from api.v1.views import app_views
 from flask import jsonify
 from models import storage
 
+
 @app_views.route('/status')
 def status():
     """Returns a JSON from API route"""
@@ -22,4 +23,4 @@ def stats():
         "User": "users"
     }
     for obj, name in stats.items()
-        return jsonify({name: storage.count(obj)})
+    return jsonify({name: storage.count(obj)})
