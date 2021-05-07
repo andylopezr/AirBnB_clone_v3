@@ -21,3 +21,27 @@ def all_cities(state_id):
         return jsonify(list_cities)
     else:
         abort(404)
+
+
+@app_views.route('/cities/<city_id>', methods=['GET'],
+                 strict_slashes=False)
+def city_object(city_id=None):
+    """Retrieve one city based on city_id"""
+    obj_city = storage.all(City)
+    for key, value in obj_city.items():
+        key_split = key.split(".")
+        if city_id == key_split[1]:
+            return jsonify(value.to_dict())
+    abort(404)
+
+
+@app_views.route('/cities/<city_id>', methods=['DELETE'],
+                 strict_slashes=False)
+def del_city(city_id):
+    """Delete one city based on city_id"""
+    obj_city = storage.get(City, city_id)
+    if obj_city:
+        obj_city.delete()
+        storage.save()
+        return({})
+    abort(404)
