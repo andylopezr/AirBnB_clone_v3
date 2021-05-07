@@ -1,4 +1,7 @@
 #!/usr/bin/python3
+"""
+It´s time to start the API
+"""
 
 from api.v1.views import app_views
 from flask import jsonify
