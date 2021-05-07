@@ -17,11 +17,12 @@ def all_states():
 @app_views.route('/states/<state_id>', methods=['GET'], strict_slashes=False)
 def one_state(state_id=None):
     """Retrieve an object based on state_id"""
-    
-    state_obj = storage.get('State', state_id)
-    if not state_obj:
-        return jsonify({"error": "Not found"}), 404
-    return jsonify(state_obj.to_dict())
+    state_obj = storage.all(state)
+    for key, value in state_obj.items():
+        key_split = key.split(".")
+        if state_id == key_split[1]:
+             return jsonify(value.to_dict())
+    return jsonify({"error": "Not found"}), 404
 
 
 @app_views.route('/states/<state_id>', methods=['DELETE'], strict_slashes=False)
