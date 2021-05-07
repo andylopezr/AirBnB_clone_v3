@@ -11,7 +11,7 @@ def status():
     return jsonify({"status": "OK"})
 
 
-@app_views.route('/status')
+@app_views.route('/stats')
 def stats():
     """Returns number of objects by type"""
     stats = {
@@ -22,5 +22,6 @@ def stats():
         "State": "states",
         "User": "users"
     }
-    for obj, name in stats.items()
-    return jsonify({name: storage.count(obj)})
+
+    stat = {name:  storage.count(obj) for obj, name in stats.items()}
+    return jsonify(stat)
