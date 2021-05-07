@@ -1,0 +1,37 @@
+#!/usr/bin/python3
+
+from models import storage
+from models.state import State
+from flask import Flask, jsonify
+from api.v1.views import app_views
+
+state = 'State'
+
+@app_views.route('/states', methods=['GET'], strict_slashes=False)
+def all_states():
+    """Retrieve an object into a valid JSON"""
+    all_states = storage.all(state).values()
+    return jsonify([obj.to_dict() for obj in all_states])
+
+
+@app_views.route('/states/<state_id>', methods=['GET'], strict_slashes=False)
+def one_state(state_id=None):
+    """Retrieve an object based on state_id"""
+    
+    state_obj = storage.get('State', state_id)
+    if not state_obj:
+        return jsonify({"error": "Not found"}), 404
+    return jsonify(state_obj.to_dict())
+
+
+@app_views.route('/states/<state_id>', methods=['DELETE'], strict_slashes=False)
+def del_states(state_id):
+    """text"""
+    all_states = storage.all(state).values()
+    for value in all_states:
+        if state_id == value.id:
+            state.delete()
+            storage.save()
+            return jsonify({}), 200
+        else:
+            return jsonify({"error": "Not found"}), 404
