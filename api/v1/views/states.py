@@ -7,6 +7,7 @@ from api.v1.views import app_views
 
 state = 'State'
 
+
 @app_views.route('/states', methods=['GET'], strict_slashes=False)
 def all_states():
     """Retrieve an object into a valid JSON"""
@@ -21,18 +22,18 @@ def one_state(state_id=None):
     for key, value in state_obj.items():
         key_split = key.split(".")
         if state_id == key_split[1]:
-             return jsonify(value.to_dict())
+            return jsonify(value.to_dict())
     return jsonify({"error": "Not found"}), 404
 
 
-@app_views.route('/states/<state_id>', methods=['DELETE'], strict_slashes=False)
+@app_views.route('/states/<state_id>', methods=['DELETE'],
+                 strict_slashes=False)
 def del_states(state_id):
-    """text"""
-    all_states = storage.all(state).values()
-    for value in all_states:
-        if state_id == value.id:
-            state.delete()
-            storage.save()
-            return jsonify({}), 200
-        else:
-            return jsonify({"error": "Not found"}), 404
+    """Delete state based on state_id"""
+    obj_state = storage.get(State, state_id)
+    if obj_state:
+        key = 'State' + "." + obj_state.id
+        obj_state.delete()
+        storage.save()
+        return({})
+    return jsonify({"error": "Not found"}), 404
