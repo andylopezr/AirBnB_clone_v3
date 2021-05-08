@@ -55,10 +55,11 @@ def create_review(place_id):
     obj_place = storage.get(Place, place_id)
     if obj_place is None:
         abort(404)
-    user_id = obj_dict["user_id"]
-    if 'user_id' is None:
+    if 'user_id' not in obj_dict:
         abort(400, 'Missing user_id')
-    if 'text' not in obj_dict.keys():
+    user_id = obj_dict['user_id']
+    user = storage.get(User, user_id)
+    if 'text' not in obj_dict:
         abort(400, 'Missing text')
     obj_review = Review(user_id=user_id, **obj_dict)
     obj_review.save()
