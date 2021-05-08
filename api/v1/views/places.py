@@ -57,6 +57,10 @@ def create_place(city_id):
         abort(400, 'Not a JSON')
     if "user_id" not in obj_dict:
         abort(400, 'Missing user_id')
+    user = storage.all(User)
+    for usr_id in user.keys():
+        if obj_dict['user_id'] != user.keys(usr_id):
+            abort(404)
     city = storage.get(City, city_id)
     if not city:
         abort(404)
