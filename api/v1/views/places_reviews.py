@@ -28,7 +28,7 @@ def one_review(review_id):
     """Retrieve a review based on review_id"""
     obj_review = storage.get(Review, review_id)
     if obj_review:
-        return jsonify(obj_review.to_dict())
+        return obj_review.to_dict()
     abort(404)
 
 
