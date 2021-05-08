@@ -56,12 +56,11 @@ def create_review(place_id):
     obj_dict = request.get_json()
     if obj_dict is None:
         abort(400, 'Not a JSON')
-    if 'user_id' in obj_dict:
-        user_id = obj_dict["user_id"]
-    else:
+    if 'user_id' not in obj_dict:
         abort(400, 'Missing user_id')
+    user_id = obj_dict.get('user_id', None)
     obj_user = storage.get(User, user_id)
-    if obj_user is None:
+    if not obj_user:
         abort(404)
     if 'text' not in obj_dict:
         abort(400, 'Missing text')
@@ -73,7 +72,7 @@ def create_review(place_id):
 @app_views.route('reviews/<review_id>', methods=['PUT'],
                  strict_slashes=False)
 def update_review(review_id):
-    """Updates User based on user_id"""
+    """Updates review based on user_id"""
     obj_review = storage.get(Review, review_id)
 
     # transform the HTTP body request to a dictionary
