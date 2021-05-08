@@ -10,7 +10,7 @@ from api.v1.views import app_views
 @app_views.route('/users', methods=['GET'],
                  strict_slashes=False)
 def all_users():
-    """Retrieve all users based on state_id"""
+    """Retrieve all users based on user_id"""
     all_users = storage.all(User).values()
     return jsonify([obj.to_dict() for obj in all_users])
 
@@ -52,12 +52,9 @@ def create_user():
         abort(400, 'Missing email')
     if "password" not in obj_dict:
         abort(400, 'Missing password')
-    if 'name' in obj_dict.keys():
-        obj_user = User(**obj_dict)
-        obj_user.save()
-        return jsonify(obj_user.to_dict()), 201
-    else:
-        abort(400, 'Missing name')
+    obj_user = User(**obj_dict)
+    obj_user.save()
+    return jsonify(obj_user.to_dict()), 201
 
 
 @app_views.route('/users/<user_id>', methods=['PUT'],
