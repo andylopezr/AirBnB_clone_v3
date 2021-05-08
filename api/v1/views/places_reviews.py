@@ -26,7 +26,7 @@ def all_reviews(place_id):
                  strict_slashes=False)
 def one_review(review_id=None):
     """Retrieve a review based on review_id"""
-    obj_review = storage.get(Review,review_id)
+    obj_review = storage.get(Review, review_id)
     if obj_review:
         return jsonify(obj_review.to_dict())
     abort(404)
@@ -48,20 +48,23 @@ def del_review(review_id):
                  strict_slashes=False)
 def create_review(place_id):
     """Post review based on json"""
+    obj_place = storage.get(Place, place_id)
+    if obj_place is None:
+        abort(404)
     # transform the HTTP body request to a dictionary
     obj_dict = request.get_json()
     if obj_dict is None:
         abort(400, 'Not a JSON')
-    obj_place = storage.get(Place, place_id)
-    if obj_place is None:
-        abort(404)
-    if 'user_id' not in obj_dict:
+    if 'user_id' in obj_dict:
+        user_id = obj_dict["user_id"]
+    else:
         abort(400, 'Missing user_id')
-    user_id = obj_dict['user_id']
-    user = storage.get(User, user_id)
+    obj_user = storage.get(User, user_id)
+    if obj_user is None:
+        abort(404)
     if 'text' not in obj_dict:
         abort(400, 'Missing text')
-    obj_review = Review(user_id=user_id, **obj_dict)
+    obj_review = Review(**obj_dict)
     obj_review.save()
     return jsonify(obj_review.to_dict()), 201
 
