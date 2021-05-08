@@ -52,7 +52,7 @@ def del_place(place_id):
                  strict_slashes=False)
 def create_place(city_id):
     """Creates a place based on json"""
-  # transform the HTTP body request to a dictionary
+    # transform the HTTP body request to a dictionary
     obj_dict = request.get_json()
     if obj_dict is None:
         abort(400, 'Not a JSON')
