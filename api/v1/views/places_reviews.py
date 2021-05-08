@@ -24,7 +24,7 @@ def all_reviews(place_id):
 
 @app_views.route('/reviews/<review_id>', methods=['GET'],
                  strict_slashes=False)
-def one_review(review_id=None):
+def one_review(review_id):
     """Retrieve a review based on review_id"""
     obj_review = storage.get(Review, review_id)
     if obj_review:
@@ -64,6 +64,7 @@ def create_review(place_id):
         abort(404)
     if 'text' not in obj_dict:
         abort(400, 'Missing text')
+    obj_dict['place_id'] = place_id
     obj_review = Review(**obj_dict)
     obj_review.save()
     return jsonify(obj_review.to_dict()), 201
@@ -75,14 +76,15 @@ def update_review(review_id):
     """Updates User based on user_id"""
     obj_review = storage.get(Review, review_id)
 
-    # These keys cannot be update
-    ignore_keys = ['id', 'user_id', 'place_id',
-                   'created_at', 'updated_at']
-
     # transform the HTTP body request to a dictionary
     to_update = request.get_json()
     if to_update is None:
         abort(400, 'Not a JSON')
+
+    # These keys cannot be update
+    ignore_keys = ['id', 'user_id', 'place_id',
+                   'created_at', 'updated_at']
+
     # check if key in dictionary is not allowed to be updated
     for key_ignore in ignore_keys:
         if key_ignore in to_update.keys():
