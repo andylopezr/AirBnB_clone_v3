@@ -26,11 +26,9 @@ def all_reviews(place_id):
                  strict_slashes=False)
 def one_review(review_id=None):
     """Retrieve a review based on review_id"""
-    obj_review = storage.all(Review)
-    for key, value in obj_review.items():
-        key_split = key.split(".")
-        if review_id == key_split[1]:
-            return jsonify(value.to_dict())
+    obj_review = storage.get(Review,review_id)
+    if obj_review:
+        return jsonify(obj_review.to_dict())
     abort(404)
 
 
@@ -40,7 +38,6 @@ def del_review(review_id):
     """Delete a review based on review_id"""
     obj_review = storage.get(Review, review_id)
     if obj_review:
-        key = 'User' + "." + obj_review.id
         obj_review.delete()
         obj_review.save()
         return({})
@@ -56,13 +53,14 @@ def create_review(place_id):
     if obj_dict is None:
         abort(400, 'Not a JSON')
     obj_place = storage.get(Place, place_id)
-    if not obj_place:
+    if obj_place is None:
         abort(404)
-    if 'user_id' not in obj_dict.keys():
+    user_id = obj_dict["user_id"]
+    if 'user_id' is None:
         abort(400, 'Missing user_id')
     if 'text' not in obj_dict.keys():
         abort(400, 'Missing text')
-    obj_review = Review(user_id=user_id, **obj_dict)
+    obj_review = Review(**obj_dict)
     obj_review.save()
     return jsonify(obj_review.to_dict()), 201
 
