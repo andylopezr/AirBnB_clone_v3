@@ -60,7 +60,7 @@ def create_review(place_id):
         abort(400, 'Missing user_id')
     if 'text' not in obj_dict.keys():
         abort(400, 'Missing text')
-    obj_review = Review(user_id=user_id**obj_dict)
+    obj_review = Review(user_id=user_id, **obj_dict)
     obj_review.save()
     return jsonify(obj_review.to_dict()), 201
 
