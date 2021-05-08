@@ -53,7 +53,7 @@ def create_user():
     if "password" not in obj_dict:
         abort(400, 'Missing password')
     if 'name' in obj_dict.keys():
-        obj_user  User(**obj_dict)
+        obj_user = User(**obj_dict)
         obj_user.save()
         return jsonify(obj_user.to_dict()), 201
     else:
