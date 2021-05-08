@@ -49,14 +49,14 @@ def del_city(city_id):
 
 @app_views.route('/states/<state_id>/cities', methods=['POST'],
                  strict_slashes=False)
-def post_city(state_id):
+def create_city(state_id):
     """Post city based on json"""
     # transform the HTTP body request to a dictionary
     obj_dict = request.get_json()
     if obj_dict is None:
         abort(400, 'Not a JSON')
     if 'name' in obj_dict.keys():
-        obj_city = City(**obj_dict)
+        obj_city = City(state_id=state_id, **obj_dict)
         obj_city.save()
         return jsonify(obj_city.to_dict()), 201
     else:
@@ -65,7 +65,7 @@ def post_city(state_id):
 
 @app_views.route('/cities/<city_id>', methods=['PUT'],
                  strict_slashes=False)
-def put_cities(city_id):
+def update_cities(city_id):
     """Update state based on state_id"""
     obj_city = storage.get(City, city_id)
 

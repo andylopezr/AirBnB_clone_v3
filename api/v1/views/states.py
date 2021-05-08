@@ -42,7 +42,7 @@ def del_states(state_id):
 
 @app_views.route('/states', methods=['POST'],
                  strict_slashes=False)
-def post_states():
+def create_states():
     """Post state based on json"""
     # transform the HTTP body request to a dictionary
     obj_dict = request.get_json()
@@ -58,7 +58,7 @@ def post_states():
 
 @app_views.route('/states/<state_id>', methods=['PUT'],
                  strict_slashes=False)
-def put_states(state_id):
+def update_states(state_id):
     """Update state based on state_id"""
     obj_state = storage.get(State, state_id)
 
