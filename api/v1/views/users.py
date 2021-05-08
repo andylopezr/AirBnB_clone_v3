@@ -67,7 +67,7 @@ def update_user(user_id):
     obj_user = storage.get(User, user_id)
 
     # These keys cannot be update
-    ignore_keys = ['id', 'created_at', 'updated_at']
+    ignore_keys = ['id', 'email', 'created_at', 'updated_at']
 
     # transform the HTTP body request to a dictionary
     to_update = request.get_json()
