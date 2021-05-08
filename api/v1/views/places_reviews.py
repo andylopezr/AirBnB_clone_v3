@@ -36,7 +36,7 @@ def one_review(review_id=None):
 
 @app_views.route('/reviews/<review_id>', methods=['DELETE'],
                  strict_slashes=False)
-def del_user(review_id):
+def del_review(review_id):
     """Delete a review based on review_id"""
     obj_review = storage.get(Review, review_id)
     if obj_review:
