@@ -28,16 +28,10 @@ def all_reviews(place_id):
                  strict_slashes=False)
 def one_review(review_id):
     """Retrieve a review based on review_id"""
-    obj_review = storage.all(Review)
-    for key, value in obj_review.items():
-        key_split = key.split(".")
-        if review_id == key_split[1]:
-            return jsonify(value.to_dict())
+    obj_review = storage.get(Review, review_id)
+    if obj_review:
+        return jsonify(obj_review.to_dict())
     abort(404)
-    #obj_review = storage.get(Review, review_id)
-    #if obj_review:
-    #    return jsonify(obj_review.to_dict())
-    #abort(404)
 
 
 @app_views.route('/reviews/<review_id>', methods=['DELETE'],
