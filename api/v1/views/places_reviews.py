@@ -28,7 +28,7 @@ def one_review(review_id):
     """Retrieve a review based on review_id"""
     obj_review = storage.get(Review, review_id)
     if obj_review:
-        return obj_review.to_dict()
+        return jsonify(obj_review.to_dict())
     abort(404)
 
 
@@ -41,7 +41,8 @@ def del_review(review_id):
         obj_review.delete()
         obj_review.save()
         return({})
-    abort(404)
+    else:
+        abort(404)
 
 
 @app_views.route('/places/<place_id>/reviews', methods=['POST'],
