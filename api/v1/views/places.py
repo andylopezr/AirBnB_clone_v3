@@ -41,7 +41,6 @@ def del_place(place_id):
     """Delete place based on place_id"""
     obj_place = storage.get(Place, place_id)
     if obj_place:
-        key = 'Place' + "." + obj_place.id
         obj_place.delete()
         storage.save()
         return({})
@@ -58,8 +57,6 @@ def create_place(city_id):
         abort(400, 'Not a JSON')
     if "user_id" not in obj_dict:
         abort(400, 'Missing user_id')
-    if "password" not in obj_dict:
-        abort(400, 'Missing password')
     city = storage.get(City, city_id)
     if not city:
         abort(404)
