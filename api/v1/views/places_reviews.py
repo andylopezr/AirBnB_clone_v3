@@ -41,7 +41,7 @@ def del_review(review_id):
     if obj_review:
         obj_review.delete()
         obj_review.save()
-        return({})
+        return({}), 200
     else:
         abort(404)
 
@@ -65,7 +65,7 @@ def create_review(place_id):
         abort(404)
     if 'text' not in obj_dict:
         abort(400, 'Missing text')
-    obj_review = Review(user_id=user_id, **obj_dict)
+    obj_review = Review(**obj_dict)
     obj_review.save()
     return jsonify(obj_review.to_dict()), 201
 
