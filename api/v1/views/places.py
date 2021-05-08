@@ -8,12 +8,12 @@ from flask import Flask, jsonify, request, abort
 from api.v1.views import app_views
 
 
-@app_views.route('cities/<place_id>/places', methods=['GET'],
+@app_views.route('cities/<city_id>/places', methods=['GET'],
                  strict_slashes=False)
-def all_places(place_id):
-    """Retrieve all the places based on place_id"""
+def all_places(city_id):
+    """Retrieve all the places based on city_id"""
     # Retrieve state based on id
-    obj_cities = storage.get(place, place_id)
+    obj_cities = storage.get(City, city_id)
     list_places = []
     if obj_cities:
         for place in obj_cities.places:
