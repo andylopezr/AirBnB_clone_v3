@@ -2,8 +2,6 @@
 """View for Amenity objects"""
 
 from models import storage
-from models.state import State
-from models.city import City
 from models.amenity import Amenity
 from flask import Flask, jsonify, request, abort
 from api.v1.views import app_views
@@ -61,7 +59,7 @@ def create_amenity():
 @app_views.route('/amenities/<amenity_id>', methods=['PUT'],
                  strict_slashes=False)
 def update_amenity(amenity_id):
-    """Update Amenity based on amenity_id"""
+    """Updates Amenity based on amenity_id"""
     obj_amenity = storage.get(Amenity, amenity_id)
 
     # These keys cannot be update
