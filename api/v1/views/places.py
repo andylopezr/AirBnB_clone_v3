@@ -3,7 +3,7 @@
 
 from models import storage
 from models.place import Place
-from models.place import place
+from models.place import City
 from flask import Flask, jsonify, request, abort
 from api.v1.views import app_views
 
