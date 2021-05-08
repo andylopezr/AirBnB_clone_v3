@@ -93,6 +93,6 @@ def update_review(review_id):
         for key, value in to_update.items():
             setattr(obj_review, key, value)
         obj_review.save()
-        return jsonify(obj_review.to_dict())
+        return jsonify(obj_review.to_dict()), 200
     else:
         abort(404)
