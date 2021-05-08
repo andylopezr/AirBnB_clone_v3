@@ -53,11 +53,11 @@ def create_city(state_id):
     """Post city based on json"""
     # transform the HTTP body request to a dictionary
     obj_dict = request.get_json()
-    state = storage.get("State", state_id)
-    if not state:
-        abort(404)
     if obj_dict is None:
         abort(400, 'Not a JSON')
+    state = storage.get(State, state_id)
+    if not state:
+        abort(404)
     if 'name' in obj_dict.keys():
         obj_city = City(state_id=state_id, **obj_dict)
         obj_city.save()
