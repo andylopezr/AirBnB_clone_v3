@@ -21,7 +21,7 @@ else:
 
 class BaseModel:
     """The BaseModel class from which future classes will be derived"""
-    if if getenv("HBNB_TYPE_STORAGE") == 'db':
+    if getenv("HBNB_TYPE_STORAGE") == 'db':
         id = Column(String(60), primary_key=True)
         created_at = Column(DateTime, default=datetime.utcnow)
         updated_at = Column(DateTime, default=datetime.utcnow)
