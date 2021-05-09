@@ -11,14 +11,16 @@ import hashlib
 
 class User(BaseModel, Base):
     """Representation of a user """
-    if models.storage_t == 'db':
+    if getenv('HBNB_TYPE_STORAGE') == 'db':
         __tablename__ = 'users'
         email = Column(String(128), nullable=False)
         password = Column(String(128), nullable=False)
         first_name = Column(String(128), nullable=True)
         last_name = Column(String(128), nullable=True)
-        places = relationship("Place", backref="user")
-        reviews = relationship("Review", backref="user")
+        places = relationship("Place", backref="user",
+                              cascade="all, delete-orphan")
+        reviews = relationship("Review", backref="user",
+                               cascade="all, delete-orphan")
     else:
         email = ""
         password = ""
@@ -29,11 +31,11 @@ class User(BaseModel, Base):
         """initializes user"""
         super().__init__(*args, **kwargs)
 
-    @property
+    @ property
     def password(self):
         return self._password
 
-    @password.setter
+    @ password.setter
     def password(self, pwd):
         """hashing password values"""
         self._password = hashlib.md5(pwd.encode()).hexdigest()
