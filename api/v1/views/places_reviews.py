@@ -75,7 +75,8 @@ def create_review(place_id):
 def update_review(review_id):
     """Updates review based on user_id"""
     obj_review = storage.get(Review, review_id)
-
+    if obj_review is None:
+        abort(404)
     # transform the HTTP body request to a dictionary
     to_update = request.get_json()
     if to_update is None:
