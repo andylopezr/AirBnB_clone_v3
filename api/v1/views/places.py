@@ -85,11 +85,11 @@ def search_place():
         amenities = objects.get('amenities', [])
         amenity_obj = []
         for ame_id in amenities:
-            amenity = storage.get('Amenity', ame_id)
+            amenity = storage.get(Amenity, ame_id)
             if amenity:
                 amenity_obj.append(amenity)
         if states == cities == []:
-            places = storage.all('Place').values()
+            places = storage.all(Place).values()
         else:
             places = []
             for state_id in states:
