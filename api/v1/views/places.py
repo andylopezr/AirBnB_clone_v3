@@ -84,7 +84,7 @@ def post_places_search():
         cities = objects.get('cities', [])
         amenities = objects.get('amenities', [])
         amenity_obj = []
-        for ame_id in amenities_:
+        for ame_id in amenities:
             amenity = storage.get('Amenity', ame_id)
             if amenity:
                 amenity_obj.append(amenity)
@@ -92,11 +92,11 @@ def post_places_search():
             places = storage.all('Place').values()
         else:
             places = []
-            for state_id in states_
+            for state_id in states:
             state = storage.get('State', state)
             state_cities = state.cities
             for city in state_cities:
-                if citi.id not in cities_
+                if citi.id not in cities:
                 cities.append(city.id)
             for city_id in cities:
                 city = storage.get('City', city_id)
