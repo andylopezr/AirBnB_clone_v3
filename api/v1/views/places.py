@@ -95,21 +95,21 @@ def search_place():
             for place in places.values():
                 list_places.append(place)
         if "states" in objects:
-        for id_states in states:
-            state = storage.get(State, id_states)
-            if state is None:
-                continue
+            for id_states in states:
+                state = storage.get(State, id_states)
+                if state is None:
+                    continue
             for city in state.cities:
                 if city is None:
                     continue
                 list_cities.append(city)
         if "cities" in objects:
-        for id_cities in objects['cities']:
-            city = storage.get(City, id_cities)
-            if city is None:
-                continue
-            if city not in list_cities:
-                list_cities.append(city)
+            for id_cities in objects['cities']:
+                city = storage.get(City, id_cities)
+                if city is None:
+                    continue
+                if city not in list_cities:
+                    list_cities.append(city)
         for cities in list_cities:
             places = cities.places
             for place in places:
