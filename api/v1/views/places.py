@@ -93,7 +93,7 @@ def post_places_search():
         else:
             places = []
             for state_id in states:
-                state = storage.get('State', state)
+                state = storage.get('State', state_id)
                 state_cities = state.cities
             for city in state_cities:
                 if city.id not in cities:
