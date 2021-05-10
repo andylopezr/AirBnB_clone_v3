@@ -80,12 +80,12 @@ def create_place(city_id):
 def search_place():
     objects = request.get_json()
     if objects:
-        states = objects.get('states', [])
-        cities = objects.get('cities', [])
-        amenities = objects.get('amenities', [])
         list_places = []
         list_cities = []
         list_amenities = []
+        states = objects.get('states', [])
+        cities = objects.get('cities', [])
+        amenities = objects.get('amenities', [])
         for a_id in amenities:
             amenity = storage.get(Amenity, a_id)
             if amenity:
@@ -99,10 +99,10 @@ def search_place():
                 state = storage.get(State, id_states)
                 if state is None:
                     continue
-            for city in state.cities:
-                if city is None:
-                    continue
-                list_cities.append(city)
+                for city in state.cities:
+                    if city is None:
+                        continue
+                    list_cities.append(city)
         if "cities" in objects:
             for id_cities in objects['cities']:
                 city = storage.get(City, id_cities)
