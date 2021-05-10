@@ -80,3 +80,8 @@ def update_states(state_id):
         return jsonify(obj_state.to_dict())
     else:
         abort(404)
+
+@app_views.route('/apidocs/states/', strict_slashes=False)
+def api_docs():
+    """Nothing better than writing tests and documentation!"""
+    return jsonify(swagger(app))
