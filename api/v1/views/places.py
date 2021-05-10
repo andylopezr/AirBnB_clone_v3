@@ -149,5 +149,3 @@ def places_search():
                 return_places.pop()
                 break
     return jsonify(return_places)
-    
-        
