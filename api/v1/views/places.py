@@ -76,6 +76,32 @@ def create_place(city_id):
         abort(400, 'Missing name')
 
 
+@app_views.route('/places/<place_id>', methods=['PUT'],
+                 strict_slashes=False)
+def update_place(place_id):
+    """Updates place based on place_id"""
+    obj_place = storage.get(Place, place_id)
+
+    # These keys cannot be update
+    ignore_keys = ['id', 'user_id', 'city_id', 'created_at', 'updated_at']
+
+    # transform the HTTP body request to a dictionary
+    to_update = request.get_json()
+    if to_update is None:
+        abort(400, 'Not a JSON')
+    # check if key in dictionary is not allowed to be updated
+    for key_ignore in ignore_keys:
+        if key_ignore in to_update.keys():
+            del to_update[key_ignore]
+    if obj_place:
+        for key, value in to_update.items():
+            setattr(obj_place, key, value)
+        obj_place.save()
+        return jsonify(obj_place.to_dict())
+    else:
+        abort(404)
+
+
 @app_views.route('/places_search', methods=['POST'], strict_slashes=False)
 def places_search():
     objects = request.get_json()
@@ -124,29 +150,3 @@ def places_search():
         return jsonify(return_places)
     else:
         abort(400, 'Not a JSON')
-
-
-@app_views.route('/places/<place_id>', methods=['PUT'],
-                 strict_slashes=False)
-def update_place(place_id):
-    """Updates place based on place_id"""
-    obj_place = storage.get(Place, place_id)
-
-    # These keys cannot be update
-    ignore_keys = ['id', 'user_id', 'city_id', 'created_at', 'updated_at']
-
-    # transform the HTTP body request to a dictionary
-    to_update = request.get_json()
-    if to_update is None:
-        abort(400, 'Not a JSON')
-    # check if key in dictionary is not allowed to be updated
-    for key_ignore in ignore_keys:
-        if key_ignore in to_update.keys():
-            del to_update[key_ignore]
-    if obj_place:
-        for key, value in to_update.items():
-            setattr(obj_place, key, value)
-        obj_place.save()
-        return jsonify(obj_place.to_dict())
-    else:
-        abort(404)
