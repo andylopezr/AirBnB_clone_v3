@@ -82,7 +82,7 @@ def post_places_search():
         cities = objects.get('cities', [])
         amenities = objects.get('amenities', [])
         amenity_obj = []
-        for ame_id in amenities_
+        for ame_id in amenities_:
             amenity = storage.get('Amenity', ame_id)
             if amenity:
                 amenity_obj.append(amenity)
