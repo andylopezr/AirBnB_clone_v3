@@ -119,7 +119,7 @@ def search_place():
             return_places.append(places.to_dict())
             for amenity in list_amenities:
                 if amenity not in places.amenities:
-                    place_to_print.pop()
+                    return_places.pop()
                     break
         return jsonify(return_places)
     else:
