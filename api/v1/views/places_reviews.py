@@ -41,10 +41,9 @@ def del_review(review_id):
     obj_review = storage.get(Review, review_id)
     if obj_review:
         obj_review.delete()
-        obj_review.save()
-        return({}), 200
-    else:
-        abort(404)
+        storage.save()
+        return({})
+    abort(404)
 
 
 @app_views.route('/places/<place_id>/reviews', methods=['POST'],
@@ -54,10 +53,10 @@ def create_review(place_id):
     obj_place = storage.get(Place, place_id)
     if obj_place is None:
         abort(404)
-    # transform the HTTP body request to a dictionary
     obj_dict = request.get_json()
     if obj_dict is None:
         abort(400, 'Not a JSON')
+    # transform the HTTP body request to a dictionary
     if 'user_id' not in obj_dict:
         abort(400, 'Missing user_id')
     user_id = obj_dict.get('user_id', None)
