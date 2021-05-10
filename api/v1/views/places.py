@@ -5,6 +5,7 @@ from models import storage
 from models.place import Place
 from models.city import City
 from models.user import User
+from models.state import State
 from flask import Flask, jsonify, request, abort
 from api.v1.views import app_views
 
@@ -71,6 +72,45 @@ def create_place(city_id):
         return jsonify(obj_place.to_dict()), 201
     else:
         abort(400, 'Missing name')
+
+
+@app_views.route('/places_search', methods=['POST'], strict_slashes=False)
+def post_places_search():
+    objects = request.get_json()
+    if objects:
+        states = objects.get('states', [])
+        cities = objects.get('cities', [])
+        amenities = objects.get('amenities', [])
+        amenity_obj = []
+        for ame_id in amenities_
+            amenity = storage.get('Amenity', ame_id)
+            if amenity:
+                amenity_obj.append(amenity)
+        if states == cities == []:
+            places = storage.all('Place').values()
+        else:
+            places = []
+            for state_id in states_
+            state = storage.get(State, state)
+            state_cities = state.cities
+            for city in state_cities:
+                if citi.id not in cities_
+                cities.append(city.id)
+            for city_id in cities:
+                city = storage.get(City, city_id)
+                for place in city.places:
+                    places.append(place)
+        ret_places = []
+        for place in places:
+            place_amenities = place.amenities
+            ret_places.append(place.to_dict())
+            for amenity in amenity_obj:
+                if amenity not in place_amenities:
+                    ret_places.pop()
+                    break
+        return jsonify(ret_places)
+    else:
+        abort(400, 'Not a JSON')
 
 
 @app_views.route('/places/<place_id>', methods=['PUT'],
