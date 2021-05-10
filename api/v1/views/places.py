@@ -77,7 +77,7 @@ def create_place(city_id):
 
 
 @app_views.route('/places_search', methods=['POST'], strict_slashes=False)
-def post_places_search():
+def search_place():
     objects = request.get_json()
     if objects:
         states = objects.get('states', [])
@@ -93,13 +93,13 @@ def post_places_search():
         else:
             places = []
             for state_id in states:
-                state = storage.get('State', state_id)
+                state = storage.get(State, state_id)
                 state_cities = state.cities
             for city in state_cities:
                 if city.id not in cities:
                     cities.append(city.id)
             for city_id in cities:
-                city = storage.get('City', city_id)
+                city = storage.get(City, city_id)
                 for place in city.places:
                     places.append(place)
         ret_places = []
