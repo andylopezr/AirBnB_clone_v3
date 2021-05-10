@@ -77,7 +77,7 @@ def create_place(city_id):
 
 
 @app_views.route('/places_search', methods=['POST'], strict_slashes=False)
-def search_place():
+def places_search():
     objects = request.get_json()
     if objects:
         list_places = []
