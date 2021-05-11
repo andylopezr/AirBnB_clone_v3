@@ -32,10 +32,18 @@ def all_amenities_places(place_id):
 @app_views.route('/places/<place_id>/amenities/<amenity_id>',
                  methods=['DELETE'], strict_slashes=False)
 def del_amenity_places(place_id, amenity_id):
-    """Delete a review based on review_id"""
-    obj_review = storage.get(Review, review_id)
-    if obj_review:
-        obj_review.delete()
+    """Delete an amenity based on place_id"""
+    obj_place = storage.get(Place, place_id)
+    obj_amenity = storage.get(Amenity, amenity_id)
+    if obj_place is None or obj_amenity is None:
+        abort(404)
+    if getenv('HBNB_TYPE_STORAGE') == 'db':
+        amenities_obj = place.amenities
+    else:
+        amenities_obj = place.amenities_ids
+    if amenity in amenities_obj:
+        amenities_obj.delete()
         storage.save()
         return({})
-    abort(404)
+    else:
+        abort(404)
